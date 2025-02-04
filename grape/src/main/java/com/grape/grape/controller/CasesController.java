@@ -1,5 +1,7 @@
 package com.grape.grape.controller;
 
+import com.grape.grape.model.PageResp;
+import com.grape.grape.model.Resp;
 import com.mybatisflex.core.paginate.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,8 @@ public class CasesController {
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("save")
-    public boolean save(@RequestBody Cases cases) {
-        return casesService.save(cases);
+    public Resp save(@RequestBody Cases cases) {
+        return Resp.ok(casesService.save(cases));
     }
 
     /**
@@ -45,8 +47,8 @@ public class CasesController {
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
     @DeleteMapping("remove/{id}")
-    public boolean remove(@PathVariable Integer id) {
-        return casesService.removeById(id);
+    public Resp remove(@PathVariable Integer id) {
+        return Resp.ok(casesService.removeById(id));
     }
 
     /**
@@ -56,8 +58,8 @@ public class CasesController {
      * @return {@code true} 更新成功，{@code false} 更新失败
      */
     @PutMapping("update")
-    public boolean update(@RequestBody Cases cases) {
-        return casesService.updateById(cases);
+    public Resp update(@RequestBody Cases cases) {
+        return Resp.ok(casesService.updateById(cases));
     }
 
     /**
@@ -66,8 +68,8 @@ public class CasesController {
      * @return 所有数据
      */
     @GetMapping("list")
-    public List<Cases> list() {
-        return casesService.list();
+    public Resp list() {
+        return Resp.ok(casesService.list());
     }
 
     /**
@@ -88,8 +90,8 @@ public class CasesController {
      * @return 分页对象
      */
     @GetMapping("page")
-    public Page<Cases> page(Page<Cases> page) {
-        return casesService.page(page);
+    public PageResp page(Page<Cases> page) {
+        return new PageResp().pageInfoOk(casesService.page(page));
     }
 
 }

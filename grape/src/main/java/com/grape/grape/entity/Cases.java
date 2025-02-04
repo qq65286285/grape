@@ -57,7 +57,7 @@ public class Cases implements Serializable {
     /**
      * 状态
      */
-    private String status;
+    private int status;
 
     /**
      * 当前版本号，初始为1
@@ -98,5 +98,10 @@ public class Cases implements Serializable {
      * 更新时间（毫秒级时间戳）
      */
     private Long updatedAt;
+
+    /**
+     * 更新人
+     */
+    private String updatedBy;
 
 }
