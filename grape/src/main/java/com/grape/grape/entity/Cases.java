@@ -1,5 +1,6 @@
 package com.grape.grape.entity;
 
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 /**
  * 测试用例表 实体类。
@@ -62,7 +64,7 @@ public class Cases implements Serializable {
     /**
      * 当前版本号，初始为1
      */
-    private Integer version;
+    private Integer version = 1;
 
     /**
      * 测试环境ID（关联测试环境配置表）
@@ -104,4 +106,9 @@ public class Cases implements Serializable {
      */
     private String updatedBy;
 
+    /**
+     * 逻辑删除
+     */
+    @Column(isLogicDelete = true)
+    private int isDeleted;
 }

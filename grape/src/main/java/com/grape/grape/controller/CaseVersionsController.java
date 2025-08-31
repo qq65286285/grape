@@ -1,17 +1,14 @@
 package com.grape.grape.controller;
 
+import com.grape.grape.model.Resp;
+import com.grape.grape.service.biz.CaseVersionBizService;
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.grape.grape.entity.CaseVersions;
 import com.grape.grape.service.CaseVersionsService;
-import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 /**
@@ -26,7 +23,8 @@ public class CaseVersionsController {
 
     @Autowired
     private CaseVersionsService caseVersionsService;
-
+    @Resource
+    private CaseVersionBizService caseVersionBizService;
     /**
      * 添加测试用例版本备份表。
      *
@@ -68,6 +66,17 @@ public class CaseVersionsController {
     @GetMapping("list")
     public List<CaseVersions> list() {
         return caseVersionsService.list();
+    }
+
+
+    /**
+     * 查询所有测试用例版本备份表。
+     *
+     * @return 所有数据
+     */
+    @GetMapping("listByCaseId")
+    public Resp listByCaseId(@RequestParam("caseId") Integer caseId) {
+        return caseVersionBizService.getListByCaseId(caseId);
     }
 
     /**

@@ -119,4 +119,26 @@ public class CaseVersions implements Serializable {
      */
     private Long updatedAt;
 
+    public CaseVersions getByCaseDao(Cases cases){
+        CaseVersions caseVersions = new CaseVersions();
+        caseVersions.setTestCaseId(cases.getId());
+        caseVersions.setCaseNumber(cases.getCaseNumber());
+        caseVersions.setTitle(cases.getTitle());
+        caseVersions.setDescription(cases.getDescription());
+        caseVersions.setPriority(cases.getPriority());
+        caseVersions.setCaseState(cases.getStatus());
+        caseVersions.setVersion(cases.getVersion());
+        caseVersions.setEnvironmentId(cases.getEnvironmentId());
+        caseVersions.setExpectedResult(cases.getExpectedResult());
+        caseVersions.setModule(cases.getModule());
+        caseVersions.setRemark(cases.getRemark());
+        caseVersions.setRevision(cases.getVersion());
+        caseVersions.setIsDeleted(cases.getIsDeleted());
+//        caseVersions.setCreatedBy(c);
+//        caseVersions.setUpdatedBy();
+//        caseVersions.setCreatedAt();
+//        caseVersions.setUpdatedAt();
+        return caseVersions;
+
+    }
 }
