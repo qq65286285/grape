@@ -9,6 +9,6 @@ import com.grape.grape.entity.CaseVersions;
  * @author Administrator
  * @since 2025-01-29
  */
-public interface CaseVersionsService extends IService<CaseVersions> {
+public interface CaseVersionsService extends MyBaseService<CaseVersions> {
 
 }

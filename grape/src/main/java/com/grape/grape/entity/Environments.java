@@ -5,7 +5,6 @@ import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import java.io.Serializable;
 
-import java.io.Serial;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +24,6 @@ import lombok.NoArgsConstructor;
 @Table("test_environments")
 public class Environments implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

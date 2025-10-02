@@ -1,6 +1,5 @@
 package com.grape.grape.service;
 
-import com.mybatisflex.core.service.IService;
 import com.grape.grape.entity.Cases;
 
 /**
@@ -9,6 +8,6 @@ import com.grape.grape.entity.Cases;
  * @author Administrator
  * @since 2025-01-29
  */
-public interface CasesService extends IService<Cases> {
+public interface CasesService extends MyBaseService<Cases> {
 
 }

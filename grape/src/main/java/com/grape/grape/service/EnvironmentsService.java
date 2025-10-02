@@ -9,6 +9,6 @@ import com.grape.grape.entity.Environments;
  * @author Administrator
  * @since 2025-01-29
  */
-public interface EnvironmentsService extends IService<Environments> {
+public interface EnvironmentsService extends MyBaseService<Environments> {
 
 }

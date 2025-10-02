@@ -18,7 +18,9 @@ public class SecurityConfig  {
         return new WebSecurityCustomizer() {
             @Override
             public void customize(WebSecurity web) {
-                web.ignoring().requestMatchers("/**");
+                web.ignoring().antMatchers
+                        ("/js/**", "/css/**",
+                                "/images/**", "/**");
             }
         };
     }
