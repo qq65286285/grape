@@ -3,12 +3,12 @@ package com.grape.grape.controller;
 import com.grape.grape.model.Resp;
 import com.grape.grape.service.biz.CaseVersionBizService;
 import com.mybatisflex.core.paginate.Page;
-import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.grape.grape.entity.CaseVersions;
 import com.grape.grape.service.CaseVersionsService;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**

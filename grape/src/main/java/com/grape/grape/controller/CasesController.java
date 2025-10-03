@@ -4,7 +4,6 @@ import com.grape.grape.model.PageResp;
 import com.grape.grape.model.Resp;
 import com.grape.grape.service.biz.CaseBizService;
 import com.mybatisflex.core.paginate.Page;
-import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.grape.grape.entity.Cases;
 import com.grape.grape.service.CasesService;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 import java.util.List;
 
 /**

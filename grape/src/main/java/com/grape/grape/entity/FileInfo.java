@@ -8,7 +8,6 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import java.io.Serial;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,6 @@ import lombok.NoArgsConstructor;
 @Table("file_info")
 public class FileInfo implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

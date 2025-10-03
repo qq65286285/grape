@@ -7,8 +7,9 @@ import com.grape.grape.model.Resp;
 import com.grape.grape.model.dict.ResultEnumI18n;
 import com.grape.grape.service.CaseVersionsService;
 import com.grape.grape.service.CasesService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
 public class CaseBizServiceImpl implements CaseBizService {

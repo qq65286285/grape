@@ -3,8 +3,9 @@ package com.grape.grape.service.biz;
 
 import com.grape.grape.model.Resp;
 import com.grape.grape.service.CaseVersionsService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
 public class CaseVersionBizServiceImpl implements CaseVersionBizService {
