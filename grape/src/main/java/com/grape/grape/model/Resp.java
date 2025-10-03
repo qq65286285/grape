@@ -27,8 +27,9 @@ public class Resp extends BaseResp{
     public static Resp info(Integer code, String message) {
         return new Resp(code,message);
     }
-
-
+    public static Resp info(ResultEnumI18n resultEnumI18n) {
+        return new Resp(resultEnumI18n.getCode(),resultEnumI18n.getMessage());
+    }
 
 
     public static Resp ok(Object data) {

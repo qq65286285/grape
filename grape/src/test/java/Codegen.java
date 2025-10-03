@@ -31,8 +31,8 @@ import com.mybatisflex.codegen.config.GlobalConfig;
             globalConfig.setBasePackage("com.grape.grape");
 
 //            设置表前缀和只生成哪些表
-            globalConfig.setTablePrefix("test_");
-//            globalConfig.setGenerateTable("tb_account", "tb_account_session");
+//            globalConfig.setTablePrefix("test_");
+            globalConfig.setGenerateTable("file_info");
 
             //设置生成 entity 并启用 Lombok
             globalConfig.setEntityGenerateEnable(true);
@@ -47,7 +47,7 @@ import com.mybatisflex.codegen.config.GlobalConfig;
             globalConfig.setServiceImplGenerateEnable(true);
             globalConfig.setControllerGenerateEnable(true);
             //可以单独配置某个列
-            ColumnConfig columnConfig = new ColumnConfig();
+//            ColumnConfig columnConfig = new ColumnConfig();
 //            columnConfig.setColumnName("tenant_id");
 //            columnConfig.setLarge(true);
 //            columnConfig.setVersion(true);
