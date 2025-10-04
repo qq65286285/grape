@@ -34,4 +34,5 @@ public class Folder implements Serializable {
      */
     private String folderName;
 
+    private Integer parentId;
 }
