@@ -7,8 +7,7 @@ import com.mybatisflex.codegen.config.GlobalConfig;
         public static void main(String[] args) {
             //配置数据源
             HikariDataSource dataSource = new HikariDataSource();
-            dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3308/" +
-                    "grape?characterEncoding=utf-8");
+            dataSource.setJdbcUrl("jdbc:mysql://192.168.23.168:13306/grape?characterEncoding=utf-8");
             dataSource.setUsername("root");
             dataSource.setPassword("root");
 
@@ -32,18 +31,18 @@ import com.mybatisflex.codegen.config.GlobalConfig;
 
 //            设置表前缀和只生成哪些表
 //            globalConfig.setTablePrefix("test_");
-            globalConfig.setGenerateTable("file_info");
+            globalConfig.setGenerateTable("user_role");
 
             //设置生成 entity 并启用 Lombok
             globalConfig.setEntityGenerateEnable(true);
             globalConfig.setEntityWithLombok(true);
             //设置项目的JDK版本，项目的JDK为14及以上时建议设置该项，小于14则可以不设置
-            globalConfig.setEntityJdkVersion(17);
+//            globalConfig.setEntityJdkVersion(17);
 
             //设置生成 mapper
             globalConfig.setMapperGenerateEnable(true);
             globalConfig.setServiceGenerateEnable(true);
-            globalConfig.setControllerGenerateEnable(true);
+//            globalConfig.setControllerGenerateEnable(true);
             globalConfig.setServiceImplGenerateEnable(true);
             globalConfig.setControllerGenerateEnable(true);
             //可以单独配置某个列

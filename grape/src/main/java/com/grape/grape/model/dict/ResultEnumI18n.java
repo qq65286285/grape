@@ -48,6 +48,7 @@ public enum ResultEnumI18n {
      */
     SYSTEM_ERROR(9998, "未知的错误!", "", ""),
     BUSINESS_ERROR(20001, "业务处理错误", "", ""),
+    CODE_ERROR(20002, "验证码错误", "", ""),
 
 
 
