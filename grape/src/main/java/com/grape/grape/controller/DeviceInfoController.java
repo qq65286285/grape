@@ -3,17 +3,12 @@ package com.grape.grape.controller;
 import com.grape.grape.model.PageResp;
 import com.grape.grape.model.Resp;
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.grape.grape.entity.DeviceInfo;
 import com.grape.grape.service.DeviceInfoService;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 /**
@@ -35,10 +30,10 @@ public class DeviceInfoController {
      * @param deviceInfo 设备信息表
      * @return {@code true} 保存成功，{@code false} 保存失败
      */
-    @PostMapping("save")
-    public boolean save(@RequestBody DeviceInfo deviceInfo) {
-        return deviceInfoService.save(deviceInfo);
-    }
+//    @PostMapping("save")
+//    public boolean save(@RequestBody DeviceInfo deviceInfo) {
+//        return deviceInfoService.save(deviceInfo);
+//    }
 
     /**
      * 根据主键删除设备信息表。
@@ -46,10 +41,10 @@ public class DeviceInfoController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
-    public boolean remove(@PathVariable Integer id) {
-        return deviceInfoService.removeById(id);
-    }
+//    @DeleteMapping("remove/{id}")
+//    public boolean remove(@PathVariable Integer id) {
+//        return deviceInfoService.removeById(id);
+//    }
 
     /**
      * 根据主键更新设备信息表。
@@ -57,10 +52,10 @@ public class DeviceInfoController {
      * @param deviceInfo 设备信息表
      * @return {@code true} 更新成功，{@code false} 更新失败
      */
-    @PutMapping("update")
-    public boolean update(@RequestBody DeviceInfo deviceInfo) {
-        return deviceInfoService.updateById(deviceInfo);
-    }
+//    @PutMapping("update")
+//    public boolean update(@RequestBody DeviceInfo deviceInfo) {
+//        return deviceInfoService.updateById(deviceInfo);
+//    }
 
     /**
      * 查询所有设备信息表。
@@ -68,8 +63,8 @@ public class DeviceInfoController {
      * @return 所有数据
      */
     @GetMapping("list")
-    public List<DeviceInfo> list() {
-        return deviceInfoService.list();
+    public Resp list() {
+        return Resp.ok(deviceInfoService.getList());
     }
 
     /**
@@ -93,5 +88,11 @@ public class DeviceInfoController {
     public PageResp page(@RequestBody  Page<DeviceInfo> page) {
         return new PageResp().pageInfoOk(deviceInfoService.pageInfo(page));
     }
+
+    @PostMapping("/updateImg")
+    public Resp upload(@RequestParam("file") MultipartFile multipartFile,@RequestParam("deviceId") int deviceId) {
+        return Resp.ok(deviceInfoService.updateImage(multipartFile,deviceId));
+    }
+
 
 }

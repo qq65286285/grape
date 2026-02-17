@@ -48,9 +48,14 @@ public class DeviceInfoVo extends DeviceInfo{
         vo.setResolution(entity.getResolution());
         try {
             vo.setDeviceIconUrl(minioService.getObjectUrl(entity.getDeviceIconId()));
-            vo.setBrandIconUrl(minioService.getObjectUrl(entity.getBrandIconId()));
+
         } catch (Exception e) {
             vo.setDeviceIconUrl("");
+        }
+
+        try {
+            vo.setBrandIconUrl(minioService.getObjectUrl(entity.getBrandIconId()));
+        } catch (Exception e) {
             vo.setBrandIconUrl("");
         }
         return vo;

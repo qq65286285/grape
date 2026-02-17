@@ -27,7 +27,7 @@ public class MathExpressionEvaluator {
     }
 
     // 解析表达式（加减）
-    private double parseExpression() {
+    public double parseExpression() {
         double result = parseTerm();
         while (index < expr.length())  {
             char op = expr.charAt(index);
@@ -109,9 +109,21 @@ public class MathExpressionEvaluator {
     // 解析数字（整数/小数）
     private double parseNumber() {
         int start = index;
-        while (index < expr.length()  && (Character.isDigit(expr.charAt(index))  || expr.charAt(index)  == '.')) {
+        // 遍历字符，找到数字的结束位置
+        while (index < expr.length() && (Character.isDigit(expr.charAt(index)) || expr.charAt(index) == '.')) {
             index++;
         }
-        return Double.parseDouble(expr.substring(start,  index));
+
+        // 添加空字符串检查
+        String numberStr = expr.substring(start, index);
+        if (numberStr.isEmpty()) {
+            throw new IllegalArgumentException("Invalid number format at position " + start);
+        }
+
+        try {
+            return Double.parseDouble(numberStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid number format: " + numberStr, e);
+        }
     }
 }

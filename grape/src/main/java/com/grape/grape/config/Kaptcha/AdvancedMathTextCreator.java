@@ -12,7 +12,7 @@ import java.security.SecureRandom;
  */
 public class AdvancedMathTextCreator extends DefaultTextCreator {
     // 扩展高等数学符号
-    private static final String[] OPERATORS = {"+", "-", "*", "÷", "²", "√"};
+    private static final String[] OPERATORS = {"+", "-", "*", "÷", "²"};
     private final SecureRandom rand = new SecureRandom();
 
     @Override

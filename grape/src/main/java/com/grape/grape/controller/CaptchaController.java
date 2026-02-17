@@ -40,10 +40,17 @@ public class CaptchaController {
     public void captcha(@RequestParam String captchaId, HttpServletResponse response, HttpSession session) throws IOException {
         // 如 "√(3+5)"
         String expression = advancedMathKaptcha.createText();
+        System.out.println("验证码计算："+expression);
+        // 验证表达式不为空
+        if (expression == null || expression.trim().isEmpty()) {
+            throw new IllegalStateException("Failed to generate captcha expression");
+        }
+
         BufferedImage image = advancedMathKaptcha.createImage(expression);
 
         // 存储表达式对应的答案（需提前计算）
         // 如 √(3+5)=2.828
+        // 根号太复杂，做不了
         double answer = MathExpressionEvaluator.evaluateExpression(expression);
         System.out.println(answer);
 //        session.setAttribute("captchaAnswer",  answer);
@@ -66,16 +73,18 @@ public class CaptchaController {
     }
 
     // 计算表达式值（需实现）
-    private double calculateExpression(String expr) {
-        if (expr.startsWith("√"))  {
-            // 提取 √(a+b) 中的 a+b
-            String inner = expr.substring(2,  expr.length()-1);
-            System.out.println(inner);
-            return Math.sqrt(MathExpressionEvaluator.evaluateExpression(inner));
-        }
-        // 其他符号解析逻辑（略）
-        return 0.0;
+public static double calculateSimpleExpr(String expression) {
+    if (expression == null || expression.trim().isEmpty()) {
+        throw new IllegalArgumentException("Expression cannot be null or empty");
     }
+
+    try {
+        return new MathExpressionEvaluator(expression.trim()).parseExpression();
+    } catch (Exception e) {
+        throw new IllegalArgumentException("Failed to evaluate expression: " + expression, e);
+    }
+}
+
 
 
 
