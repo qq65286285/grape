@@ -6,15 +6,19 @@ import com.grape.grape.entity.CaseVersions;
 import com.grape.grape.entity.Cases;
 import com.grape.grape.entity.TestCaseStep;
 import com.grape.grape.entity.User;
+import com.grape.grape.model.PageResp;
 import com.grape.grape.model.Resp;
 import com.grape.grape.model.dict.ResultEnumI18n;
+import com.grape.grape.model.vo.CaseRequest;
 import com.grape.grape.service.CaseVersionsService;
 import com.grape.grape.service.CasesService;
 import com.grape.grape.service.TestCaseStepService;
 import com.grape.grape.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.mybatisflex.core.query.QueryWrapper;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,6 +39,165 @@ public class CaseBizServiceImpl implements CaseBizService {
     TestCaseStepService testCaseStepService;
     @Autowired
     private UserService userService;
+
+    @Override
+    public Resp saveCase(CaseRequest caseRequest) {
+        if (caseRequest == null) {
+            return Resp.info(400, "请求参数不能为空");
+        }
+        
+        // 使用 CaseRequest 的转换方法构建测试用例对象
+        Cases cases = caseRequest.toCases();
+        
+        // 保存测试用例
+        boolean saveResult = casesService.save(cases);
+        if (saveResult && caseRequest.getSteps() != null && !caseRequest.getSteps().isEmpty()) {
+            // 保存测试用例步骤
+            testCaseStepService.saveSteps(cases.getId(), caseRequest.getSteps());
+        }
+        
+        return Resp.ok(saveResult);
+    }
+
+    @Override
+    public Resp removeCase(Integer id) {
+        return Resp.ok(casesService.removeById(id));
+    }
+
+    @Override
+    public Cases getCaseById(Integer id) {
+        return casesService.getById(id);
+    }
+
+    @Override
+    public List<Cases> listCases() {
+        return casesService.list();
+    }
+
+    @Override
+    public PageResp pageCases(Integer pageNum, Integer pageSize) {
+        com.mybatisflex.core.paginate.Page<Cases> page = new com.mybatisflex.core.paginate.Page<>(pageNum, pageSize);
+        page = casesService.page(page);
+        PageResp pageResp = new PageResp();
+        return pageResp.pageInfoOk(page);
+    }
+
+    @Override
+    public PageResp pageCases(Integer pageNum, Integer pageSize, Map<String, Object> params) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (params != null) {
+            // 根据条件构建查询
+            if (params.containsKey("folderId")) {
+                queryWrapper.eq("folder_id", params.get("folderId"));
+            }
+            if (params.containsKey("module")) {
+                queryWrapper.eq("module", params.get("module"));
+            }
+            if (params.containsKey("priority")) {
+                queryWrapper.eq("priority", params.get("priority"));
+            }
+            if (params.containsKey("status")) {
+                queryWrapper.eq("status", params.get("status"));
+            }
+            if (params.containsKey("keyword")) {
+                    String keyword = params.get("keyword").toString();
+                    // 简化查询条件，只使用一个 like 条件
+                    queryWrapper.like("title", keyword);
+                }
+        }
+        com.mybatisflex.core.paginate.Page<Cases> page = new com.mybatisflex.core.paginate.Page<>(pageNum, pageSize);
+        page = casesService.page(page, queryWrapper);
+        PageResp pageResp = new PageResp();
+        return pageResp.pageInfoOk(page);
+    }
+
+    @Override
+    public Map<String, Object> getCaseDetail(Integer id) {
+        Cases cases = casesService.getById(id);
+        if (cases == null) {
+            return null;
+        }
+        
+        // 获取测试用例步骤
+        List<TestCaseStep> steps = testCaseStepService.list(new QueryWrapper().eq("case_id", id));
+        
+        Map<String, Object> result = new java.util.HashMap<>();
+        result.put("case", cases);
+        result.put("steps", steps);
+        
+        return result;
+    }
+
+    @Override
+    public Resp batchRemoveCases(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Resp.info(400, "请选择要删除的测试用例");
+        }
+        boolean removeResult = casesService.removeByIds(ids);
+        return Resp.ok(removeResult);
+    }
+
+    @Override
+    public Map<String, Object> getCaseStats() {
+        Map<String, Object> stats = new java.util.HashMap<>();
+        
+        // 总用例数
+        stats.put("total", casesService.count());
+        
+        // 按状态统计
+        Map<String, Object> statusStats = new java.util.HashMap<>();
+        statusStats.put("pending", casesService.count(new QueryWrapper().eq("status", 0)));
+        statusStats.put("completed", casesService.count(new QueryWrapper().eq("status", 1)));
+        statusStats.put("failed", casesService.count(new QueryWrapper().eq("status", 2)));
+        stats.put("status", statusStats);
+        
+        // 按优先级统计
+        Map<String, Object> priorityStats = new java.util.HashMap<>();
+        priorityStats.put("low", casesService.count(new QueryWrapper().eq("priority", 1)));
+        priorityStats.put("medium", casesService.count(new QueryWrapper().eq("priority", 2)));
+        priorityStats.put("high", casesService.count(new QueryWrapper().eq("priority", 3)));
+        stats.put("priority", priorityStats);
+        
+        return stats;
+    }
+
+    @Override
+    public Resp saveCaseSteps(Integer caseId, List<TestCaseStep> steps) {
+        if (caseId == null || steps == null || steps.isEmpty()) {
+            return Resp.info(400, "请求参数不能为空");
+        }
+        
+        boolean saveResult = testCaseStepService.saveSteps(caseId, steps);
+        return Resp.ok(saveResult);
+    }
+
+    @Override
+    public Resp updateCaseWithSteps(CaseRequest caseRequest) {
+        if (caseRequest == null || caseRequest.getId() == null) {
+            return Resp.info(400, "请求参数不能为空，且必须包含测试用例ID");
+        }
+        
+        // 使用 CaseRequest 的转换方法构建测试用例对象
+        Cases cases = caseRequest.toCasesForUpdate();
+        
+        // 更新测试用例
+        Resp updateResult = updateCase(cases);
+        
+        // 更新测试用例步骤
+        log.info("=== 开始更新测试用例步骤 ===");
+        log.info("caseId: {}", cases.getId());
+        log.info("steps: {}", caseRequest.getSteps());
+        log.info("updateResult.code: {}", updateResult.getCode());
+        if (updateResult.getCode() == 0 && caseRequest.getSteps() != null) {
+            log.info("执行步骤更新");
+            saveCaseSteps(cases.getId(), caseRequest.getSteps());
+        } else {
+            log.info("跳过步骤更新，原因: updateResult.code = {}, caseRequest.getSteps() = {}", updateResult.getCode(), caseRequest.getSteps());
+        }
+        log.info("=== 测试用例步骤更新完成 ===");
+        
+        return updateResult;
+    }
 
     @Override
     public Resp updateCase(Cases cases){

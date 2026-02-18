@@ -3,11 +3,9 @@ package com.grape.grape.entity;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
+import com.mybatisflex.annotation.Column;
 import java.io.Serializable;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,9 +16,7 @@ import lombok.NoArgsConstructor;
  * @since 2025-01-29
  */
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table("test_case_executions")
 public class CaseExecutions implements Serializable {
 
@@ -96,5 +92,29 @@ public class CaseExecutions implements Serializable {
      * 乐观锁版本号（默认值为1）
      */
     private Integer revision;
+
+    /**
+     * 设置默认值
+     */
+    public void setDefaultValues() {
+        // 设置创建时间和更新时间
+        long currentTime = System.currentTimeMillis();
+        if (this.createdAt == null) {
+            this.createdAt = currentTime;
+        }
+        if (this.updatedAt == null) {
+            this.updatedAt = currentTime;
+        }
+        
+        // 设置执行状态默认值
+        if (this.executionStatus == null) {
+            this.executionStatus = "0";
+        }
+        
+        // 设置乐观锁版本号默认值
+        if (this.revision == null) {
+            this.revision = 1;
+        }
+    }
 
 }

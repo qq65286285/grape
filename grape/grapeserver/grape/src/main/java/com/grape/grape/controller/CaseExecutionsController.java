@@ -30,24 +30,23 @@ public class CaseExecutionsController {
      */
     @PostMapping("save")
     public boolean save(@RequestBody CaseExecutions caseExecutions) {
-        // 设置创建和更新时间
-        long currentTime = System.currentTimeMillis();
-        caseExecutions.setCreatedAt(currentTime);
-        caseExecutions.setUpdatedAt(currentTime);
-        
-        // 设置创建人和更新人
+        // 设置执行人
         String currentUserId = UserUtils.getCurrentUserId();
         if (currentUserId != null) {
+            caseExecutions.setExecutedBy(currentUserId);
             caseExecutions.setCreatedBy(currentUserId);
             caseExecutions.setUpdatedBy(currentUserId);
-            caseExecutions.setExecutedBy(currentUserId);
-            caseExecutions.setExecutedAt(currentTime);
         } else {
+            caseExecutions.setExecutedBy("system");
             caseExecutions.setCreatedBy("system");
             caseExecutions.setUpdatedBy("system");
-            caseExecutions.setExecutedBy("system");
-            caseExecutions.setExecutedAt(currentTime);
         }
+        
+        // 设置执行时间
+        long currentTime = System.currentTimeMillis();
+        caseExecutions.setExecutedAt(currentTime);
+        caseExecutions.setCreatedAt(currentTime);
+        caseExecutions.setUpdatedAt(currentTime);
         
         return caseExecutionsService.save(caseExecutions);
     }
